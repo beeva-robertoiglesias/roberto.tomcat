@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Roberto Iglesias
+  company: BEEVA
+  description: Example Ansible
+  min_ansible_version: 1.0
+  platforms:
+  - name: EL
+    versions:
+    - all
+
+
