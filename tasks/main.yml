@@ -1,0 +1,39 @@
+---
+  - name: install Tomcat 
+    unarchive: 
+      src: http://apache.uvigo.es/tomcat/tomcat-8/v8.5.8/bin/apache-tomcat-8.5.8.tar.gz 
+      dest: /opt/
+      remote_src: true
+      owner: root
+      group: root 
+
+  - name: simbolic link tomcat
+    file:
+      src: /opt/apache-tomcat-8.5.8
+      dest: /opt/tomcat
+      owner: root
+      group: root
+      state: link
+ 
+  - name: modify catalina.sh
+    lineinfile:
+      dest: /opt/tomcat/bin/catalina.sh
+      regexp: '^(.*){{ search }}(.*)$'
+      line: "JAVA_OPTS=\"$JAVA_OPTS -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Xms512m -Xmx1024m\""
+      state: present
+   
+  - name: upload catalina.sh
+    template: 
+      src: templates/tomcat
+      dest: /etc/systemd/system/tomcat.service
+      mode: 0755
+      owner: root
+      group: root 
+    notify: tomcat restart
+
+  - name: start service
+    systemd:
+      name: tomcat
+      state: started
+      enabled: true  
+
