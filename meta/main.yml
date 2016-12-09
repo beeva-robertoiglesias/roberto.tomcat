@@ -9,4 +9,6 @@ galaxy_info:
     versions:
     - all
 
-
+dependencies:
+  - devops2.timezone
+  - devops2.language
